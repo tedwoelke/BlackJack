@@ -1,9 +1,14 @@
 
 public class CardTest {
-	CardTest(){	
-	}
 	public static void main(String args[]){
-		Card testcard = new Card(Card.Suit.DIAMOND, Card.Face.KING);
-		System.out.println(testcard.toString());
+		int count = 0;
+		for(Card.Suit suit: Card.Suit.values()){
+			for(Card.Face face: Card.Face.values()){
+				Card testcard = new Card(suit, face);
+				System.out.println(testcard.toString());
+				count++;
+			}
+		}
+		System.out.println(count);
 	}
 }
