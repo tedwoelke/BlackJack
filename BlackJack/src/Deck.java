@@ -5,7 +5,14 @@ public class Deck {
 	/**
 	 * Constructor of deck. Creates deck with 52 cards and initializes top of deck.
 	 */
-	public Deck(){
+	private static Deck obj;
+	public static Deck getInstance(){
+		if(obj == null){
+			obj = new Deck();
+		}
+		return obj;
+	}
+	private Deck(){
 		deck = new Card[0];
 		top = 0;
 		addDeck();
@@ -77,19 +84,27 @@ public class Deck {
 	 * Returns the number of decks currently being used.
 	 * @return int decks
 	 */
-	public int decks(){
+	public int getDecks(){
 		return deck.length/52;
 	}
 	//for testing deck.
 	public static void main(String[] args) {
-    	Deck deck = new Deck();	
+    	Deck deck = Deck.getInstance();
     	for(int i = 0; i<55;i++){
-    		System.out.println(deck.dealCard().toString());
+    		//System.out.println(deck.dealCard().toString());
     		}
     	deck.shuffle();
     	deck.addDeck();
     	deck.addDeck();
-    	deck.printDeck();
-    	System.out.println(deck.decks());
+    	//deck.printDeck();
+    	System.out.println(deck.getDecks());
+    	Deck deck2 = Deck.getInstance();
+    	deck2.printDeck();
+    	System.out.println(deck2.getDecks());
+    	deck2.addDeck();
+    	System.out.println(deck.getDecks());
+    	if(deck == deck2){
+    		System.out.println("They are the same!");
+    	}
 	}
 }
