@@ -1,17 +1,23 @@
 import java.util.*;
 public class Deck {
-	Card[] deck;
-	int top;
+	private static Deck obj;
+	private static Card[] deck;
+	private static int top;
 	/**
 	 * Constructor of deck. Creates deck with 52 cards and initializes top of deck.
+	 * This is a Singleton class.
 	 */
-	private static Deck obj;
 	public static Deck getInstance(){
 		if(obj == null){
 			obj = new Deck();
 		}
 		return obj;
 	}
+	/**
+	 * Private constructor. This means in order to create an object of Deck class
+	 * you must call the getInstance() method which first checks to see if an
+	 * instance of Deck already exist.
+	 */
 	private Deck(){
 		deck = new Card[0];
 		top = 0;
@@ -36,7 +42,7 @@ public class Deck {
 		}
 	}
 	//For testing deck.
-	public void printDeck(){
+	private void printDeck(){
 		for(Card i:deck){
 			System.out.println(i.toString());
 		}	
