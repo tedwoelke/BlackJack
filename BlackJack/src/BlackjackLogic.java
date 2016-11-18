@@ -18,14 +18,14 @@ public class BlackjackLogic {
 	// Initialize class variables.
 	Player[] players;
 	int top;
-	int hand;
+	int rounds;
 	/**
 	 * Default constructor contains 2 players.
 	 */
 	private BlackjackLogic(){
 		top = 0;
 		players = new Player[2];
-		hand = 1;
+		rounds = 1;
 	}
 	/**
 	 * Constructor has input for number of players.
@@ -34,7 +34,7 @@ public class BlackjackLogic {
 	private BlackjackLogic(int i){
 		top = 0;
 		players = new Player[i];
-		hand = 1;
+		rounds = 1;
 	}
 	/**
 	 * Adds a player to the game.
@@ -72,32 +72,32 @@ public class BlackjackLogic {
 	/**
 	 * Has each player discard their current hand.
 	 */
-	private void resetHands(){
+	private void discardHands(){
 		for(int i = 0; i < top; i ++){
 			players[i].discardHand();
 		}
-		this.incrementHands();
+		this.incrementRounds();
 	}
 	/**
 	 * Returns the number of hands played.
 	 * @return number of hands played
 	 */
-	public int getHands(){
-		return this.hand;
+	public int getRounds(){
+		return this.rounds;
 	}
 	/**
 	 * Increases hands by 1.
 	 */
-	private void incrementHands(){
-		this.hand++;
+	private void incrementRounds(){
+		this.rounds++;
 	}
 	/**
 	 * Builds a String representation of each player's hand.
 	 * @return
 	 */
-	private String everyonesHands(){
+	private String allHandstoString(){
 		StringBuilder s = new StringBuilder("");
-		s.append("This is hand: " + this.hand+" There are "+Deck.getInstance().cardsLeft()+" cards left in deck." + "\n");
+		s.append("This is hand: " + this.rounds+" There are "+Deck.getInstance().cardsLeft()+" cards left in deck." + "\n");
 		for(int i = 0; i < top; i ++){
 			if(players[i].getName().equals("Dealer"))
 				s.append(players[i].getName() +"\t"+ players[i].getHand() +"\tHand Value:"+ players[i].getHandValue() +"\t"+"\n");
@@ -155,9 +155,9 @@ public class BlackjackLogic {
 		// Game loop.
 		do{
 			// Resets everyone's hands.
-			thisGame.resetHands();
+			thisGame.discardHands();
 			//Reshuffle deck every 5 hands.
-			if(thisGame.getHands()%5 == 0){
+			if(thisGame.getRounds()%5 == 0){
 				deck.shuffle();
 			}
 			// Here is where the GUI should ask to increase or decrease bet. Disable increase bet button if it will reduce chips below 0.
@@ -169,7 +169,7 @@ public class BlackjackLogic {
 			thisGame.dealHand(deck);
 			thisGame.dealHand(deck);
 			// Initial printout of everyone's cards.
-			System.out.println(thisGame.everyonesHands());
+			System.out.println(thisGame.allHandstoString());
 			// If dealer has Blackjack, ends round. Pushes if player has Blackjack.
 			if(thisGame.getPlayer(0).hasBlackjack()){
 				for(int i = 1; i<thisGame.getPlayers();i++){
@@ -177,7 +177,7 @@ public class BlackjackLogic {
 						thisGame.getPlayer(i).addChips(thisGame.getPlayer(i).getBet());
 				}
 				// Reset hands and continue.
-				thisGame.resetHands();
+				thisGame.discardHands();
 				continue;
 			}
 			// Each player plays their round.
@@ -212,7 +212,7 @@ public class BlackjackLogic {
 				}
 			}
 			// After everyone plays their hand, prints the hands.
-			System.out.println(thisGame.everyonesHands());
+			System.out.println(thisGame.allHandstoString());
 			//Remove players without enough chips.
 			thisGame.removeDeadPlayers();			
 		}while(thisGame.someoneHasChips());
