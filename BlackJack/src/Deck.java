@@ -41,6 +41,9 @@ public class Deck {
 			}
 		}
 	}
+	public int cardsLeft(){
+		return deck.length-top;
+	}
 	//For testing deck.
 	private void printDeck(){
 		for(Card i:deck){
