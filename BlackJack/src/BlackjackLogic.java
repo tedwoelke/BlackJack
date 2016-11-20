@@ -176,8 +176,7 @@ public class BlackjackLogic {
 					if(thisGame.getPlayer(i).hasBlackjack())
 						thisGame.getPlayer(i).addChips(thisGame.getPlayer(i).getBet());
 				}
-				// Reset hands and continue.
-				thisGame.discardHands();
+				// Start next round.
 				continue;
 			}
 			// Each player plays their round.

@@ -8,7 +8,7 @@
 public class Player {
 	private static final String DEALER = "Dealer";
 	private String name;
-	private int aces;
+	private boolean aces;
 	private Card[] hand;
 	private int top;
 	private int chips;
@@ -34,7 +34,7 @@ public class Player {
 		players++;
 		hand = new Card[24];
 		top = 0;
-		aces = 0;
+		aces = false;
 		this.npc=true;
 		this.firstHandShowing = true;
 	}
@@ -59,7 +59,7 @@ public class Player {
 		players++;
 		hand = new Card[24];
 		top = 0;
-		aces = 0;
+		aces = false;
 		this.firstHandShowing = true;
 	}
 	/**
@@ -83,7 +83,7 @@ public class Player {
 		players++;
 		hand = new Card[24];
 		top = 0;
-		aces = 0;
+		aces = false;
 		this.firstHandShowing = true;
 	}
 	/**
@@ -166,7 +166,7 @@ public class Player {
 	public void receiveCard(Card card){
 		hand[top++] = card;
 		if(card.face == Card.Face.ACE){
-			aces++;
+			aces = true;
 		}
 	}
 	/**
@@ -196,10 +196,8 @@ public class Player {
 		for(int j = 0; j < top; j++){
 			i += hand[j].getValue();
 		}
-		for(int j = 0; j < aces; j++){
-			if(i + 10 <= 21){
-				i += 10;
-			}
+		if(aces && i + 10 <= 21){
+			i += 10;
 		}
 		return i;
 	}
@@ -207,22 +205,8 @@ public class Player {
 	 * Resets this players hand so they have no cards.
 	 */
 	public void discardHand(){
-		top=0;
-		aces=0;
+		top = 0;
+		aces = false;
 		firstHandShowing = true;
-	}
-	//testing of class
-	public static void main (String args[]){
-		Player kris = new Player("Kris", true);
-		System.out.println(kris.getChips());
-		System.out.println(kris.getName());
-		Player rando = new Player();
-		System.out.println(rando.getName());
-		for(Card.Suit suit: Card.Suit.values()){
-			Card aces = new Card(suit, Card.Face.ACE);
-			kris.receiveCard(aces);
-			System.out.println(kris.getHand()+kris.getHandValue()+kris.canSplit());
-		}
-		System.out.println(kris.getHand()+kris.getHandValue()+kris.canSplit());		
 	}
 }
